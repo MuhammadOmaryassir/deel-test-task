@@ -9,6 +9,12 @@ const { getBestClients, getBestProfession } = require('./admin');
 
 const router = new Router();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocument));
+
 router.get(
   '/contracts/:id',
   getProfile,
@@ -64,6 +70,8 @@ router.post(
 router.post(
   '/balances/deposit/:userId',
   asyncHandler(async (req, res) => {
+    // would be great to check if profile_id from header === userId from params
+    // but I assume for now that anybody can deposit a balance for a client
     const clientId = req.params.userId;
     const { amount } = req.body;
 
