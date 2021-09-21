@@ -133,7 +133,7 @@
           "200": {
             "description": "OK"
           },
-          "409": {
+          "400": {
             "description": "Deposit exceeds the threshold"
           }
         }

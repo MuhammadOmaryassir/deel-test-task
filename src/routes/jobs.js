@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const { Contract, Job, Profile, sequelize } = require('../model');
+const HttpError = require('../httpError');
 
 async function getUserUnpaidJobs(userId) {
   return Job.findAll({
@@ -32,6 +33,9 @@ async function payJob(jobId, clientId) {
   const result = await sequelize.transaction(async (t) => {
     const jobWithDetails = await Job.findOne(
       {
+        where: {
+          id: jobId,
+        },
         include: [
           {
             model: Contract,
@@ -47,11 +51,11 @@ async function payJob(jobId, clientId) {
     );
 
     if (!jobWithDetails) {
-      throw new Error('Job not found');
+      throw new HttpError(404, 'Job not found');
     }
 
     if (jobWithDetails.paid) {
-      throw new Error('Job is already paid');
+      throw new HttpError(409, 'Job is already paid');
     }
 
     const [client, contractor] = await Promise.all([
@@ -62,7 +66,7 @@ async function payJob(jobId, clientId) {
     ]);
 
     if (client.balance < jobWithDetails.price) {
-      throw new Error('Insufficient funds');
+      throw new HttpError(400, 'Insufficient funds');
     }
 
     // move the money and mark as paid

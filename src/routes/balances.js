@@ -1,5 +1,5 @@
-const { Op } = require('sequelize');
 const { Contract, Job, Profile, sequelize } = require('../model');
+const HttpError = require('../httpError');
 
 async function getClientUnpaidJobsSum(clientId) {
   return Job.sum('price', {
@@ -25,7 +25,7 @@ async function depositMoney(clientId, amount) {
   const depositThreshold = unpaidSum * 0.25;
 
   if (amount > depositThreshold) {
-    throw new Error('Deposit exceeds the threshold');
+    throw new HttpError(400, 'Deposit exceeds the threshold');
   }
 
   const result = await sequelize.transaction(async (t) => {
