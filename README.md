@@ -46,3 +46,4 @@ Due to restriction of time I skipped several things, but I will mention them her
 * proper error handling
 * test coverage (haven't done because test setup takes some time)
 * a better separation of layers, e.g. services, route handlers
+* admin API with optional dates  
