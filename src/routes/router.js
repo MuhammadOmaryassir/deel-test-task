@@ -1,16 +1,15 @@
 const { Router } = require('express');
 const asyncHandler = require('express-async-handler');
-const { getProfile } = require('../middleware/getProfile');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
-const { getActiveUserContracts, getContractById } = require('./contracts');
+const { getProfile } = require('../middleware/getProfile');
+const { getNonTerminatedUserContracts, getContractById } = require('./contracts');
 const { getUserUnpaidJobs, payJob } = require('./jobs');
 const { depositMoney } = require('./balances');
 const { getBestClients, getBestProfession } = require('./admin');
 
 const router = new Router();
-
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
 
 router.use('/api-docs', swaggerUi.serve);
 router.get('/api-docs', swaggerUi.setup(swaggerDocument));
@@ -37,7 +36,7 @@ router.get(
   getProfile,
   asyncHandler(async (req, res) => {
     const userId = req.profile.id;
-    const contracts = await getActiveUserContracts(userId);
+    const contracts = await getNonTerminatedUserContracts(userId);
 
     res.json(contracts);
   })

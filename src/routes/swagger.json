@@ -38,7 +38,7 @@
     },
     "/contracts": {
       "get": {
-        "summary": "Get user active contracts",
+        "summary": "Get user contracts",
         "parameters": [
           {
             "in": "header",

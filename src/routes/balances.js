@@ -12,7 +12,7 @@ async function getClientUnpaidJobsSum(clientId) {
         required: true,
         attributes: [],
         where: {
-          status: { [Op.ne]: 'terminated' },
+          status: 'in_progress', // assume that contracts are not terminated if some jobs are unpaid
           ClientId: clientId,
         },
       },

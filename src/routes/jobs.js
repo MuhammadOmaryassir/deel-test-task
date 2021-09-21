@@ -20,7 +20,7 @@ async function getUserUnpaidJobs(userId) {
               ContractorId: userId,
             },
           ],
-          status: { [Op.ne]: 'terminated' },
+          status: 'in_progress',
         },
       },
     ],

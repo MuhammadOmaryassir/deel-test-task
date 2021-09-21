@@ -17,7 +17,7 @@ async function getContractById(id, userId) {
   });
 }
 
-async function getActiveUserContracts(userId) {
+async function getNonTerminatedUserContracts(userId) {
   return Contract.findAll({
     where: {
       [Op.or]: [
@@ -34,6 +34,6 @@ async function getActiveUserContracts(userId) {
 }
 
 module.exports = {
-  getActiveUserContracts,
+  getNonTerminatedUserContracts,
   getContractById,
 };
