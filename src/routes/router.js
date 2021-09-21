@@ -1,8 +1,10 @@
 const { Router } = require('express');
 const asyncHandler = require('express-async-handler');
 const { getProfile } = require('../middleware/getProfile');
+
 const { getActiveUserContracts, getContractById } = require('./contracts');
 const { getUserUnpaidJobs, payJob } = require('./jobs');
+const { depositMoney } = require('./balances');
 
 const router = new Router();
 
@@ -55,6 +57,18 @@ router.post(
     const updatedJob = await payJob(jobId, clientId);
 
     res.json(updatedJob);
+  })
+);
+
+router.post(
+  '/balances/deposit/:userId',
+  asyncHandler(async (req, res) => {
+    const clientId = req.params.userId;
+    const { amount } = req.body;
+
+    const profile = await depositMoney(clientId, amount);
+
+    res.json(profile);
   })
 );
 
