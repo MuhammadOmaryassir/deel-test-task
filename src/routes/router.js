@@ -5,6 +5,7 @@ const { getProfile } = require('../middleware/getProfile');
 const { getActiveUserContracts, getContractById } = require('./contracts');
 const { getUserUnpaidJobs, payJob } = require('./jobs');
 const { depositMoney } = require('./balances');
+const { getBestClients, getBestProfession } = require('./admin');
 
 const router = new Router();
 
@@ -69,6 +70,26 @@ router.post(
     const profile = await depositMoney(clientId, amount);
 
     res.json(profile);
+  })
+);
+
+router.get(
+  '/admin/best-profession',
+  asyncHandler(async (req, res) => {
+    const { start, end } = req.query;
+    const bestProfession = await getBestProfession(start, end);
+
+    res.json(bestProfession);
+  })
+);
+
+router.get(
+  '/admin/best-clients',
+  asyncHandler(async (req, res) => {
+    const { start, end, limit } = req.query;
+    const bestClients = await getBestClients(start, end, limit);
+
+    res.json(bestClients);
   })
 );
 
