@@ -1,0 +1,26 @@
+{
+  "name": "deel-task",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "body-parser": "1.19.0",
+    "express": "4.17.1",
+    "express-async-handler": "1.1.4",
+    "sequelize": "6.6.5",
+    "sqlite3": "4.2.0"
+  },
+  "scripts": {
+    "start": "nodemon --inspect ./src/server.js",
+    "seed": "node ./scripts/seedDb.js",
+    "prettier": "prettier \"./src/**/*.js\" --write"
+  },
+  "devDependencies": {
+    "concurrently": "4.1.2",
+    "nodemon": "1.19.4",
+    "prettier": "2.4.1"
+  },
+  "engines": {
+    "node": ">=10.16.3"
+  },
+  "engineStrict": true
+}
