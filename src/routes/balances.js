@@ -21,15 +21,19 @@ async function getClientUnpaidJobsSum(clientId) {
 }
 
 async function depositMoney(clientId, amount) {
-  const unpaidSum = await getClientUnpaidJobsSum(clientId);
-  const depositThreshold = unpaidSum * 0.25;
-
-  if (amount > depositThreshold) {
-    throw new HttpError(400, 'Deposit exceeds the threshold');
-  }
-
   const result = await sequelize.transaction(async (t) => {
     const client = await Profile.findByPk(clientId, { transaction: t });
+
+    if (!client || client.type !== 'client') {
+      throw new HttpError(404, 'Client not found')
+    }
+
+    const unpaidSum = await getClientUnpaidJobsSum(clientId);
+    const depositThreshold = unpaidSum * 0.25;
+
+    if (amount > depositThreshold) {
+      throw new HttpError(400, 'Deposit exceeds the threshold');
+    }
 
     // drop floating fractions
     client.balance = parseFloat((client.balance + amount).toFixed(2));

@@ -2,10 +2,12 @@ const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './database.sqlite3',
+  storage: process.env.DB_STORAGE || './database.sqlite3',
+  logging: false,
 });
 
 class Profile extends Sequelize.Model {}
+
 Profile.init(
   {
     firstName: {
@@ -34,6 +36,7 @@ Profile.init(
 );
 
 class Contract extends Sequelize.Model {}
+
 Contract.init(
   {
     terms: {
@@ -51,6 +54,7 @@ Contract.init(
 );
 
 class Job extends Sequelize.Model {}
+
 Job.init(
   {
     description: {

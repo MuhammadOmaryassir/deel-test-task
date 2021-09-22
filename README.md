@@ -32,18 +32,26 @@ Contractor get paid for jobs by clients under a certain contract.
 
 - The server is running with [nodemon](https://nodemon.io/) which will automatically restart for you when you modify and save a file.
 
-- The database provider is SQLite, which will store data in a file local to your repository called `database.sqlite3`. 
+- The database provider is SQLite, which will store data in a file local to your repository called `database.sqlite3` or in memory during tests. You can override it using `DB_STORAGE` env variable 
 
 ## APIs To Implement
 
-Swagger UI is located at [`/api-docs`](http://localhost:3001/api-docs).
+Swagger UI is located at [/api-docs](http://localhost:3001/api-docs).
+
+## Tests
+There are API tests for the main route handlers.
+Tests use in memory Sqlite DB which is flushed during every test. It's quite fast and lightweight setup.
+
+To run, execute
+```
+npm test
+```
 
 ## Next steps
 
 Due to restriction of time I skipped several things, but I will mention them here:
 
 * setup validation with Joi
-* proper error handling
-* test coverage (haven't done because test setup takes some time)
+* better test setup with fixtures and different levels of tests
 * a better separation of layers, e.g. services, route handlers
 * admin API with optional dates  
